@@ -7,7 +7,7 @@ on:
 
 jobs:
   main:  
-    runs-on: ubuntu-latest, node20
+    runs-on: ubuntu-latest #, node20 it don't run
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v4
