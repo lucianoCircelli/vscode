@@ -1,12 +1,15 @@
 name: Latest Release Monitor
+  
+ 
+  
 on:
   schedule:
-    - cron: 0/5 * * * *
+      - cron: 0/5 * * * *
   repository_dispatch:
-    types: [trigger-latest-release-monitor]
+      types: [trigger-latest-release-monitor]
 
 jobs:
-  main:
+  main:  
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions
@@ -19,9 +22,14 @@ jobs:
         run: npm install --production --prefix ./actions
       - name: Install Storage Module
         run: npm install @azure/storage-blob@12.1.1
+      - name: callLastNode                              #24_03_31 I add because 
+        run: node20
       - name: Run Latest Release Monitor
         uses: ./actions/latest-release-monitor
         with:
           storageKey: ${{secrets.AZURE_BLOB_STORAGE_CONNECTION_STRING}}
           appInsightsKey: ${{secrets.TRIAGE_ACTIONS_APP_INSIGHTS}}
           token: ${{secrets.VSCODE_ISSUE_TRIAGE_BOT_PAT}}
+
+  
+ 
