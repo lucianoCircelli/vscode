@@ -15,26 +15,39 @@ jobs:
           repository: "microsoft/vscode-github-triage-actions"
           path: ./actions
           ref: stable
-      - name : before Actions                              #add 24_04_01
-        run : npm cache clean --force                      #add 24_04_01
-      - name: Use LTS Node.js                              # I call node
-        uses: actions/setup-node@v3
+      - name : before Actions                                                      #add 24_04_01
+        run : npm cache clean --force                                              #add 24_04_01
+      - name: Install Node.js                                                      # last add
         with:
-          node-version: lts/*
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install @node-core/utils
+        run: npm install -g @node-core/utils
+
+      - name: Setup @node-core/utils
+        run: |
+          ncu-config set username ${{ secrets.JENKINS_USER }}
+          ncu-config set token "${{ secrets.GH_USER_TOKEN }}"
+          ncu-config set jenkins_token ${{ secrets.JENKINS_TOKEN }}
+          ncu-config set owner "${{ github.repository_owner }}"
+          ncu-config set repo "$(echo ${{ github.repository }} | cut -d/ -f2)"     # end last add        
+                                                                                   
           
       - name: Install Actions                                                           #run: npm install --production --prefix ./actions --> old 
         run : npm install --save @opentelemetry/api
+        
       - name : install Actions2
         run : npm install --save @opentelemetry/sdk-node
+        
       - name : install Actions3
         run : npm install --save @opentelemetry/auto-instrumentations-node
+        
       - name : Require AzureID                            # 24_04_01 add this because appInsightkey is refused
         run: npm install @azure/identity            
                                                           # 24_04_01 add this because appInsightkey is refused --> end            
       - name: Install Storage Module
         run: npm install @azure/storage-blob                             #@azure/storage-blob@12.1.1 -24_04-01_it is old reading https://www.npmjs.com/package/@azure/storage-blob
-      #- name: callLastNode                              #24_03_31 I add because 
-     #   run: node20
+      
       - name: Run Latest Release Monitor
         uses: ./actions/latest-release-monitor
         with:
