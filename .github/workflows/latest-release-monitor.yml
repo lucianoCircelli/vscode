@@ -26,7 +26,7 @@ jobs:
       - name : install Actions3
         run : npm install --save @opentelemetry/auto-instrumentations-node
       - name: Install Storage Module
-        run: npm install @azure/storage-blob@12.1.1
+        run: npm install @azure/storage-blob                             #@azure/storage-blob@12.1.1 -24_04-01_it is old reading https://www.npmjs.com/package/@azure/storage-blob
       #- name: callLastNode                              #24_03_31 I add because 
      #   run: node20
       - name: Run Latest Release Monitor
