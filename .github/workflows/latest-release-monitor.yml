@@ -27,20 +27,12 @@ jobs:
         run : npm install --save @opentelemetry/auto-instrumentations-node
       - name : Require AzureID                            # 24_04_01 add this because appInsightkey is refused
         run: npm install @azure/identity
+      - name: Use LTS Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
             
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-
-      - name: Azure PowerShell script
-        uses: azure/powershell@v1
-        with:
-          azPSVersion: "latest"
-          inlineScript: |
-            Get-AzContext                              # 24_04_01 add this because appInsightkey is refused --> end
+                        # 24_04_01 add this because appInsightkey is refused --> end
             
       - name: Install Storage Module
         run: npm install @azure/storage-blob                             #@azure/storage-blob@12.1.1 -24_04-01_it is old reading https://www.npmjs.com/package/@azure/storage-blob
