@@ -17,23 +17,20 @@ jobs:
           ref: stable
       - name : before Actions                              #add 24_04_01
         run : npm cache clean --force                      #add 24_04_01
+      - name: Use LTS Node.js                              # I call node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
           
-      - name: Install Actions
-                                                           #run: npm install --production --prefix ./actions --> old 
+      - name: Install Actions                                                           #run: npm install --production --prefix ./actions --> old 
         run : npm install --save @opentelemetry/api
       - name : install Actions2
         run : npm install --save @opentelemetry/sdk-node
       - name : install Actions3
         run : npm install --save @opentelemetry/auto-instrumentations-node
       - name : Require AzureID                            # 24_04_01 add this because appInsightkey is refused
-        run: npm install @azure/identity
-      - name: Use LTS Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: lts/*
-            
-                        # 24_04_01 add this because appInsightkey is refused --> end
-            
+        run: npm install @azure/identity            
+                                                          # 24_04_01 add this because appInsightkey is refused --> end            
       - name: Install Storage Module
         run: npm install @azure/storage-blob                             #@azure/storage-blob@12.1.1 -24_04-01_it is old reading https://www.npmjs.com/package/@azure/storage-blob
       #- name: callLastNode                              #24_03_31 I add because 
