@@ -16,7 +16,12 @@ jobs:
           path: ./actions
           ref: stable
       - name: Install Actions
-        run: npm install --production --prefix ./actions
+                                                           #run: npm install --production --prefix ./actions --> old 
+        run : npm install --save @opentelemetry/api
+      - name : install Actions2
+        run : npm install --save @opentelemetry/sdk-node
+      - name : install Actions3
+        run : npm install --save @opentelemetry/auto-instrumentations-node
       - name: Install Storage Module
         run: npm install @azure/storage-blob@12.1.1
       #- name: callLastNode                              #24_03_31 I add because 
