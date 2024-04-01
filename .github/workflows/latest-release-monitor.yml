@@ -15,6 +15,9 @@ jobs:
           repository: "microsoft/vscode-github-triage-actions"
           path: ./actions
           ref: stable
+      - name : before Actions                              #add 24_04_01
+        run : npm cache clean --force                      #add 24_04_01
+          
       - name: Install Actions
                                                            #run: npm install --production --prefix ./actions --> old 
         run : npm install --save @opentelemetry/api
