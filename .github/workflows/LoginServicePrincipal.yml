@@ -1,0 +1,26 @@
+# 24_04_02 lucianocircelli@gmail.com
+# I use value ID in my Azure app registrations in Entra Display name: ServicePrincipalID_GH_Azure
+# I created the secrets.AZURE_CREDENTIALS 
+# https://github.com/Azure/login#login-with-a-service-principal-secret from Login With a Service Principal Secret
+# I have in this repository on setting the name AZURE_CREDENTIALS in secret
+
+on: [push]
+
+name: Run Azure Login With a Service Principal Secret
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az account show
