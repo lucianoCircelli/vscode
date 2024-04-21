@@ -18,7 +18,32 @@ jobs:
     steps:
       - uses: azure/login@v2
         with:
-         creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+         creds: ${{ secrets.AZURE_CREDENTIALS }}  #24_04_21 I add
+         enable-AzPSSession: true                 #24_04_21 I add
+      - name: Azure CLI script                    #24_04_21 I add
+        uses: azure/CLI@v1                        #24_04_21 I add
+        with:                                     #24_04_21 I add
+          azcliversion: latest                    #24_04_21 I add
+          inlineScript: |                         #24_04_21 I add
+            az account show   
+      - name: Azure PowerShell script
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: "latest"                  # 24_04_21 from https://github.com/Azure/login#readme
+          inlineScript: |                        # end 24_04_21 The workflow sample to run both Azure CLI and Azure PowerShell
+            Get-AzWebApp  
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          auth-type: IDENTITY          
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true                    # end 24_04_21 The workflow sample to run both Azure CLI and Azure PowerShell 
+            
+
+         
+         #24_04_21 leaves in creds : '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+             
               # 24_04_02 I try above from https://github.com/Azure/login#login-with-a-service-principal-secret
            # client-id: ${{ vars.AZURE_CLIENT_ID }}
            # tenant-id: ${{ vars.AZURE_TENANT_ID }}
